@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Linker {
 
 	public static Method[] getRegisteredFunctions() {
@@ -18,7 +19,10 @@ public class Linker {
 
 	public static String[] getFunctionNames() {
 		ArrayList<String> functions = new ArrayList<>();
-		for (Method method : getRegisteredFunctions()) functions.add(method.getAnnotation(FunctionName.class).value());
+		for (Method method : getRegisteredFunctions()) {
+			FunctionName nameAnnotation = method.getAnnotation(FunctionName.class);
+			functions.add(nameAnnotation != null ? nameAnnotation.value() : null);
+		}
 		return (String[])functions.toArray();
 	}
 }
